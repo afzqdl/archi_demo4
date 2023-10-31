@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人所得税计算器</title>
+
+</head>
+<body>
+<div id = "main">
+<h1>个人所得税计算器</h1>
+<label for="income">请输入个人所得金额：</label>
+<input type="number" id="income" step="0.01"><br><br>
+<button onclick="calculateTax()">计算个人所得税</button><br><br>
+<div id="result"></div>
+</div>
+
+<script>
+    function calculateTax() {
+        var income = document.getElementById("income").value;
+
+        fetch('http://localhost:8080/api/calculateTax', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: 'income=' + income
+        })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("result").innerHTML = "个人所得税：" + data + " 元";
+            });
+    }
+</script>
+</body>
+</html>
